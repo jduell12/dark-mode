@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import {BrowserRouter as Router} from 'react-router-dom'
 import axios from "axios";
 
 import Charts from "./components/Charts";
@@ -27,4 +28,4 @@ const App = () => {
 };
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(<Router><App /></Router>, rootElement);
