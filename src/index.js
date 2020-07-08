@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import {BrowserRouter as Router} from 'react-router-dom'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import axios from "axios";
 
 import Charts from "./components/Charts";
 import Navbar from "./components/Navbar";
+import {useForm} from './components/hooks/useForm'
 
 import "./styles.scss";
 
 const App = () => {
+  const initialValue = '';
+
   const [coinData, setCoinData] = useState([]);
 
   useEffect(() => {
@@ -19,10 +22,15 @@ const App = () => {
       .then(res => setCoinData(res.data))
       .catch(err => console.log(err));
   }, []);
+
   return (
     <div className="App">
       <Navbar />
-      <Charts coinData={coinData} />
+      <Switch>
+        <Route path='/:id'>
+           <Charts coinData={''} />
+        </Route>
+      </Switch>
     </div>
   );
 };
