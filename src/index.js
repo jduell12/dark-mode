@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import axios from "axios";
 
 import Charts from "./components/Charts";
@@ -10,9 +9,11 @@ import {useForm} from './components/hooks/useForm'
 import "./styles.scss";
 
 const App = () => {
-  const initialValue = '';
-
   const [coinData, setCoinData] = useState([]);
+
+  const initialValues = {value: '', path: '/'};
+  const formHooks = useForm(initialValues);
+  const [values, handleChanges] = formHooks
 
   useEffect(() => {
     axios
@@ -23,17 +24,21 @@ const App = () => {
       .catch(err => console.log(err));
   }, []);
 
-  return (
-    <div className="App">
-      <Navbar />
-      <Switch>
-        <Route path='/:id'>
-           <Charts coinData={''} />
-        </Route>
-      </Switch>
-    </div>
-  );
+  if(values.path !== '/'){
+    return (
+      <div className="App">
+        <Navbar values={values} handleChanges={handleChanges}/>
+        <Charts coinData={coinData.filter(item => item.id === values.value)} />
+      </div>
+    );
+  } else {
+    return(
+      <div className="App">
+          <Navbar values={values} handleChanges={handleChanges} />
+      </div>
+    )
+  }
 };
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<Router><App /></Router>, rootElement);
+ReactDOM.render(<App />, rootElement);
