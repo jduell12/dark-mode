@@ -5,11 +5,11 @@ export const useDarkMode = () => {
     const[darkMode, setDarkMode] = useLocalStorage('darkMode');
 
     useEffect(() => {
-        const body = document.getElementsByTagName('body');
+        const body = document.querySelector('body');
         if(darkMode){
-            body.addClass = 'dark-mode'
+            body.classList.add('dark-mode')
         } else {
-            body.removeClass = 'dark-mode'
+            body.classList.remove('dark-mode')
         }
     }, [darkMode]);
 
